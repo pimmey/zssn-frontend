@@ -10,7 +10,7 @@
   ],
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^\\w+\\/(.*)",
+    "^~",
     "^[./]"
   ],
   "importOrderSeparation": true,
