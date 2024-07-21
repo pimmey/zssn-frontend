@@ -36,6 +36,31 @@ export const $InventoryCreate = {
   title: 'InventoryCreate'
 } as const
 
+export const $InventoryItemPublic = {
+  properties: {
+    name: {
+      $ref: '#/components/schemas/ItemName'
+    },
+    points: {
+      type: 'integer',
+      title: 'Points'
+    },
+    id: {
+      type: 'integer',
+      title: 'Id'
+    }
+  },
+  type: 'object',
+  required: ['name', 'points', 'id'],
+  title: 'InventoryItemPublic'
+} as const
+
+export const $ItemName = {
+  type: 'string',
+  enum: ['water', 'food', 'medication', 'ammunition'],
+  title: 'ItemName'
+} as const
+
 export const $ReportCreate = {
   properties: {
     survivor_id: {
