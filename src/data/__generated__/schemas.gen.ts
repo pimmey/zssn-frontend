@@ -22,17 +22,17 @@ export const $HTTPValidationError = {
 
 export const $InventoryCreate = {
   properties: {
-    item_id: {
-      type: 'integer',
-      title: 'Item Id'
-    },
     quantity: {
       type: 'integer',
       title: 'Quantity'
+    },
+    item_id: {
+      type: 'integer',
+      title: 'Item Id'
     }
   },
   type: 'object',
-  required: ['item_id', 'quantity'],
+  required: ['quantity', 'item_id'],
   title: 'InventoryCreate'
 } as const
 
@@ -53,6 +53,34 @@ export const $InventoryItemPublic = {
   type: 'object',
   required: ['name', 'points', 'id'],
   title: 'InventoryItemPublic'
+} as const
+
+export const $InventoryPublic = {
+  properties: {
+    quantity: {
+      type: 'integer',
+      title: 'Quantity'
+    },
+    id: {
+      type: 'integer',
+      title: 'Id'
+    },
+    item_id: {
+      type: 'integer',
+      title: 'Item Id'
+    },
+    item_name: {
+      type: 'string',
+      title: 'Item Name'
+    },
+    points: {
+      type: 'integer',
+      title: 'Points'
+    }
+  },
+  type: 'object',
+  required: ['quantity', 'id', 'item_id', 'item_name', 'points'],
+  title: 'InventoryPublic'
 } as const
 
 export const $ItemName = {
@@ -220,6 +248,57 @@ export const $SurvivorLocationUpdate = {
   title: 'SurvivorLocationUpdate'
 } as const
 
+export const $SurvivorPublic = {
+  properties: {
+    latitude: {
+      type: 'number',
+      title: 'Latitude'
+    },
+    longitude: {
+      type: 'number',
+      title: 'Longitude'
+    },
+    name: {
+      type: 'string',
+      title: 'Name'
+    },
+    age: {
+      type: 'integer',
+      title: 'Age'
+    },
+    gender: {
+      $ref: '#/components/schemas/Gender'
+    },
+    id: {
+      type: 'integer',
+      title: 'Id'
+    },
+    is_infected: {
+      type: 'boolean',
+      title: 'Is Infected'
+    },
+    inventory: {
+      items: {
+        $ref: '#/components/schemas/InventoryPublic'
+      },
+      type: 'array',
+      title: 'Inventory'
+    }
+  },
+  type: 'object',
+  required: [
+    'latitude',
+    'longitude',
+    'name',
+    'age',
+    'gender',
+    'id',
+    'is_infected',
+    'inventory'
+  ],
+  title: 'SurvivorPublic'
+} as const
+
 export const $Trade = {
   properties: {
     from_survivor_id: {
@@ -253,6 +332,20 @@ export const $Trade = {
     'to_items'
   ],
   title: 'Trade'
+} as const
+
+export const $TradeData = {
+  properties: {
+    from_survivor: {
+      $ref: '#/components/schemas/SurvivorPublic'
+    },
+    to_survivor: {
+      $ref: '#/components/schemas/SurvivorPublic'
+    }
+  },
+  type: 'object',
+  required: ['from_survivor', 'to_survivor'],
+  title: 'TradeData'
 } as const
 
 export const $TradeItem = {

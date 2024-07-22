@@ -7,14 +7,22 @@ export type HTTPValidationError = {
 }
 
 export type InventoryCreate = {
-  item_id: number
   quantity: number
+  item_id: number
 }
 
 export type InventoryItemPublic = {
   name: ItemName
   points: number
   id: number
+}
+
+export type InventoryPublic = {
+  quantity: number
+  id: number
+  item_id: number
+  item_name: string
+  points: number
 }
 
 export type ItemName = 'water' | 'food' | 'medication' | 'ammunition'
@@ -59,11 +67,27 @@ export type SurvivorLocationUpdate = {
   survivor_id: number
 }
 
+export type SurvivorPublic = {
+  latitude: number
+  longitude: number
+  name: string
+  age: number
+  gender: Gender
+  id: number
+  is_infected: boolean
+  inventory: Array<InventoryPublic>
+}
+
 export type Trade = {
   from_survivor_id: number
   to_survivor_id: number
   from_items: Array<TradeItem>
   to_items: Array<TradeItem>
+}
+
+export type TradeData = {
+  from_survivor: SurvivorPublic
+  to_survivor: SurvivorPublic
 }
 
 export type TradeItem = {
@@ -91,7 +115,7 @@ export type ReadSurvivorData = {
   survivorId: number
 }
 
-export type ReadSurvivorResponse = Survivor
+export type ReadSurvivorResponse = SurvivorPublic
 
 export type UpdateSurvivorLocationData = {
   requestBody: SurvivorLocationUpdate
@@ -111,6 +135,13 @@ export type TradeItemsData = {
 }
 
 export type TradeItemsResponse = SuccessResponse
+
+export type GetTradeDataData = {
+  fromSurvivorId: number
+  toSurvivorId: number
+}
+
+export type GetTradeDataResponse = TradeData
 
 export type GetInventoryItemsResponse = Array<InventoryItemPublic>
 
@@ -155,7 +186,7 @@ export type $OpenApiTs = {
         /**
          * Successful Response
          */
-        200: Survivor
+        200: SurvivorPublic
         /**
          * Validation Error
          */
@@ -201,6 +232,19 @@ export type $OpenApiTs = {
          * Successful Response
          */
         200: SuccessResponse
+        /**
+         * Validation Error
+         */
+        422: HTTPValidationError
+      }
+    }
+    get: {
+      req: GetTradeDataData
+      res: {
+        /**
+         * Successful Response
+         */
+        200: TradeData
         /**
          * Validation Error
          */

@@ -1,9 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import SignUp from '~/router/routes/SignUp'
-
 import ErrorPage from './routes/ErrorPage'
+import Profile from './routes/Profile'
 import Root from './routes/Root'
+import SignUp from './routes/SignUp'
+import Trade from './routes/Trade'
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,14 @@ const router = createBrowserRouter([
   {
     path: '/sign-up',
     element: <SignUp />
+  },
+  {
+    path: '/profile/:id',
+    element: <Profile />
+  },
+  {
+    path: '/trade/:id',
+    element: <Trade />
   }
 ])
 

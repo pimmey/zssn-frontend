@@ -1,34 +1,52 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
 import {
   InventoryItemsService,
   SurvivorCreate,
   SurvivorsService
 } from '~/data/__generated__'
+import { setMyId } from '~/data/local-storage'
+import { createSurvivorSchema } from '~/router/routes/SignUp/schemas'
 
 export default function SignUp() {
-  const inventoryItems = useQuery({
-    queryKey: ['inventory-items'],
-    queryFn: InventoryItemsService.getInventoryItems
-  })
-  const createSurvivor = useMutation({
-    mutationFn: SurvivorsService.createSurvivor,
-    onSuccess: data => {
-      console.log('response', data)
-      // Invalidate and refetch or go somewhere?
-    }
+  const navigate = useNavigate()
+
+  const { data: inventoryItems, error: inventoryItemsError } =
+    useQuery({
+      queryKey: ['inventory-items'],
+      queryFn: InventoryItemsService.getInventoryItems
+    })
+
+  const { mutate: createSurvivor } = useMutation({
+    mutationFn: SurvivorsService.createSurvivor
   })
 
   const [isLoadingPosition, setIsLoadingPosition] =
     useState<boolean>(false)
-  const { handleSubmit, register, setValue } =
-    useForm<SurvivorCreate>()
+  const {
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors }
+  } = useForm<SurvivorCreate>({
+    resolver: yupResolver<SurvivorCreate>(createSurvivorSchema)
+  })
 
   const onSubmit: SubmitHandler<SurvivorCreate> = data => {
     console.log(data)
-    createSurvivor.mutate({ requestBody: data })
+    createSurvivor(
+      { requestBody: data },
+      {
+        onSuccess: data => {
+          setMyId(String(data.id))
+          navigate(`/profile/${data.id}`)
+        }
+      }
+    )
   }
 
   const askForLocation = () => {
@@ -36,12 +54,8 @@ export default function SignUp() {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         console.log({ latitude, longitude })
-        setValue('latitude', Number(latitude.toFixed(5)), {
-          // shouldValidate: true
-        })
-        setValue('longitude', Number(longitude.toFixed(5)), {
-          // shouldValidate: true
-        })
+        setValue('latitude', Number(latitude.toFixed(5)))
+        setValue('longitude', Number(longitude.toFixed(5)))
         setIsLoadingPosition(false)
       },
       () => {
@@ -51,6 +65,8 @@ export default function SignUp() {
       { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
     )
   }
+
+  console.log({ errors, inventoryItemsError })
 
   return (
     <div>
@@ -94,7 +110,7 @@ export default function SignUp() {
           />
         </div>
         <div>
-          {inventoryItems.data?.map((item, index) => (
+          {inventoryItems?.map((item, index) => (
             <div key={item.id}>
               <label>{item.name}</label>
               <input
@@ -104,6 +120,8 @@ export default function SignUp() {
               />
               <input
                 type="number"
+                defaultValue={0}
+                min={0}
                 {...register(`inventory.${index}.quantity`)}
               />
             </div>

@@ -6,6 +6,8 @@ import type {
   CreateSurvivorData,
   CreateSurvivorResponse,
   GetInventoryItemsResponse,
+  GetTradeDataData,
+  GetTradeDataResponse,
   ReadRootResponse,
   ReadSurvivorData,
   ReadSurvivorResponse,
@@ -70,7 +72,7 @@ export class SurvivorsService {
    * Read Survivor Endpoint
    * @param data The data for the request.
    * @param data.survivorId
-   * @returns Survivor Successful Response
+   * @returns SurvivorPublic Successful Response
    * @throws ApiError
    */
   public static readSurvivor(
@@ -147,6 +149,30 @@ export class TradeService {
       url: '/trade/',
       body: data.requestBody,
       mediaType: 'application/json',
+      errors: {
+        422: 'Validation Error'
+      }
+    })
+  }
+
+  /**
+   * Get Trade Data Endpoint
+   * @param data The data for the request.
+   * @param data.fromSurvivorId
+   * @param data.toSurvivorId
+   * @returns TradeData Successful Response
+   * @throws ApiError
+   */
+  public static getTradeData(
+    data: GetTradeDataData
+  ): CancelablePromise<GetTradeDataResponse> {
+    return __request(OpenAPI, {
+      method: 'GET',
+      url: '/trade/',
+      query: {
+        from_survivor_id: data.fromSurvivorId,
+        to_survivor_id: data.toSurvivorId
+      },
       errors: {
         422: 'Validation Error'
       }
