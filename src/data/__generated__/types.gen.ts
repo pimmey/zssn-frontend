@@ -76,6 +76,7 @@ export type SurvivorPublic = {
   id: number
   is_infected: boolean
   inventory: Array<InventoryPublic>
+  reported_by: Array<number>
 }
 
 export type Trade = {

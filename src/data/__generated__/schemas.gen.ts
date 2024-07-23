@@ -283,6 +283,13 @@ export const $SurvivorPublic = {
       },
       type: 'array',
       title: 'Inventory'
+    },
+    reported_by: {
+      items: {
+        type: 'integer'
+      },
+      type: 'array',
+      title: 'Reported By'
     }
   },
   type: 'object',
@@ -294,7 +301,8 @@ export const $SurvivorPublic = {
     'gender',
     'id',
     'is_infected',
-    'inventory'
+    'inventory',
+    'reported_by'
   ],
   title: 'SurvivorPublic'
 } as const

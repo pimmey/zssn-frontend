@@ -10,13 +10,24 @@ const inventoryItemSchema = yup.object({
 export const createSurvivorSchema = yup
   .object({
     name: yup.string().required(),
-    age: yup.number().positive().integer().required(),
+    age: yup
+      .number()
+      .typeError('age must be a number')
+      .positive()
+      .integer()
+      .required(),
     gender: yup
       .string()
       .oneOf<Gender>(['male', 'female', 'other'])
       .required(),
-    latitude: yup.number().required(),
-    longitude: yup.number().required(),
+    latitude: yup
+      .number()
+      .typeError('latitude must be a number')
+      .required(),
+    longitude: yup
+      .number()
+      .typeError('longitude must be a number')
+      .required(),
     inventory: yup.array().of(inventoryItemSchema).required()
   })
   .required()

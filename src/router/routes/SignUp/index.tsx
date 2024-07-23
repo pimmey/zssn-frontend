@@ -1,15 +1,23 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
+import Button from '~/components/Button'
+import { ButtonIntentsEnum } from '~/components/Button/enums'
+import FormErrorMessage from '~/components/FormErrorMessage'
+import FormGroup from '~/components/FormGroup'
+import LocationFormGroup from '~/components/LocationFormGroup'
+import PageTitle from '~/components/PageTitle'
 import {
   InventoryItemsService,
   SurvivorCreate,
   SurvivorsService
 } from '~/data/__generated__'
 import { setMyId } from '~/data/local-storage'
+import Container from '~/layout/main/components/Container'
 import { createSurvivorSchema } from '~/router/routes/SignUp/schemas'
 
 export default function SignUp() {
@@ -25,8 +33,6 @@ export default function SignUp() {
     mutationFn: SurvivorsService.createSurvivor
   })
 
-  const [isLoadingPosition, setIsLoadingPosition] =
-    useState<boolean>(false)
   const {
     handleSubmit,
     register,
@@ -37,82 +43,75 @@ export default function SignUp() {
   })
 
   const onSubmit: SubmitHandler<SurvivorCreate> = data => {
-    console.log(data)
     createSurvivor(
       { requestBody: data },
       {
         onSuccess: data => {
           setMyId(String(data.id))
+          toast.success('Welcome aboard!')
           navigate(`/profile/${data.id}`)
         }
       }
     )
   }
 
-  const askForLocation = () => {
-    setIsLoadingPosition(true)
-    navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        console.log({ latitude, longitude })
-        setValue('latitude', Number(latitude.toFixed(5)))
-        setValue('longitude', Number(longitude.toFixed(5)))
-        setIsLoadingPosition(false)
-      },
-      () => {
-        console.log('Cannot retrieve coordinates')
-        setIsLoadingPosition(false)
-      },
-      { maximumAge: 60000, timeout: 5000, enableHighAccuracy: true }
-    )
-  }
-
-  console.log({ errors, inventoryItemsError })
+  useEffect(() => {
+    if (inventoryItemsError) {
+      toast.error(inventoryItemsError.message)
+    }
+  }, [inventoryItemsError])
 
   return (
-    <div>
-      Sign up!
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-gray-100 p-8"
-      >
-        <div>
-          <label htmlFor="name">Name</label>
-          <input {...register('name')} />
-        </div>
-        <div>
-          <label htmlFor="age">Age</label>
-          <input type="number" {...register('age')} />
-        </div>
-        <div>
-          <label htmlFor="gender">Gender</label>
-          <select {...register('gender')}>
-            <option value="female">female</option>
-            <option value="male">male</option>
-            <option value="other">other</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="latitude">Current position</label>
-          <button type="button" onClick={askForLocation}>
-            detect location
-          </button>
-          <input
-            type="number"
-            {...register('latitude')}
-            step=".00001"
-            disabled={isLoadingPosition}
+    <Container>
+      <PageTitle>Sign up</PageTitle>
+      <div className="rounded-3xl bg-gray-100 p-8">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormGroup>
+            <label htmlFor="name">Name</label>
+            <input id="name" {...register('name')} className="w-72" />
+            <FormErrorMessage<SurvivorCreate>
+              id="name"
+              errors={errors}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label htmlFor="age">Age</label>
+            <input
+              type="number"
+              id="age"
+              min="0"
+              {...register('age')}
+              className="w-16"
+            />
+            <FormErrorMessage<SurvivorCreate>
+              id="age"
+              errors={errors}
+            />
+          </FormGroup>
+          <FormGroup>
+            <label htmlFor="gender">Gender</label>
+            <select
+              id="gender"
+              {...register('gender')}
+              className="w-36"
+            >
+              <option value="female">female</option>
+              <option value="male">male</option>
+              <option value="other">other</option>
+            </select>
+            <FormErrorMessage<SurvivorCreate>
+              id="gender"
+              errors={errors}
+            />
+          </FormGroup>
+          <LocationFormGroup<SurvivorCreate>
+            register={register}
+            setValue={setValue}
+            errors={errors}
           />
-          <input
-            type="number"
-            {...register('longitude')}
-            step=".00001"
-            disabled={isLoadingPosition}
-          />
-        </div>
-        <div>
           {inventoryItems?.map((item, index) => (
-            <div key={item.id}>
-              <label>{item.name}</label>
+            <FormGroup key={item.id}>
+              <label className="capitalize">{item.name}</label>
               <input
                 type="hidden"
                 value={+item.id}
@@ -123,12 +122,18 @@ export default function SignUp() {
                 defaultValue={0}
                 min={0}
                 {...register(`inventory.${index}.quantity`)}
+                className="w-16"
               />
-            </div>
+              {errors?.inventory?.[index]?.quantity ? (
+                <div className="text-sm">
+                  {errors?.inventory[index].quantity.message}
+                </div>
+              ) : null}
+            </FormGroup>
           ))}
-        </div>
-        <button>Submit</button>
-      </form>
-    </div>
+          <Button intent={ButtonIntentsEnum.primary}>Sign up</Button>
+        </form>
+      </div>
+    </Container>
   )
 }
