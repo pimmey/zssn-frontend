@@ -76,6 +76,7 @@ export default function LocationFormGroup<
       </div>
       <div className="flex flex-col gap-x-2 gap-y-2 lg:flex-row">
         <input
+          data-testid="latitude-input"
           type="number"
           {...register('latitude' as FieldPath<TFormValues>)}
           step=".00001"
@@ -83,6 +84,7 @@ export default function LocationFormGroup<
           placeholder="latitude"
         />
         <input
+          data-testid="longitude-input"
           type="number"
           {...register('longitude' as FieldPath<TFormValues>)}
           step=".00001"

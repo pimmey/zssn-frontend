@@ -65,7 +65,10 @@ export default function SignUp() {
     <Container>
       <PageTitle>Sign up</PageTitle>
       <div className="rounded-3xl bg-gray-100 p-8">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          data-testid="sign-up-form"
+        >
           <div className="flex flex-col gap-y-8 md:flex-row">
             <div className="md:w-2/3">
               <div className="mb-4 text-2xl">Personal data</div>
@@ -75,6 +78,7 @@ export default function SignUp() {
                   id="name"
                   {...register('name')}
                   className="w-72"
+                  data-testid="name-input"
                 />
                 <FormErrorMessage<SurvivorCreate>
                   id="name"
@@ -89,6 +93,7 @@ export default function SignUp() {
                   min="0"
                   {...register('age')}
                   className="w-16"
+                  data-testid="age-input"
                 />
                 <FormErrorMessage<SurvivorCreate>
                   id="age"
@@ -134,6 +139,7 @@ export default function SignUp() {
                     defaultValue={0}
                     min={0}
                     {...register(`inventory.${index}.quantity`)}
+                    data-testid={`quantity-input-${index}`}
                     className="w-16"
                   />
                   {errors?.inventory?.[index]?.quantity ? (
