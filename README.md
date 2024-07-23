@@ -1,30 +1,36 @@
-# React + TypeScript + Vite
+# ZSSN
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Created with Vite React TypeScript.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Installation
+```shell
+npm i
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Available npm commands
+```shell
+Lifecycle scripts included in frontend@0.0.0:
+  test
+    vitest
+
+available via `npm run-script`:
+  dev
+    vite
+  build
+    tsc -b && vite build
+  lint
+    eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0
+  preview
+    vite preview
+  generate-client
+    openapi-ts
+  test-ui
+    vitest --ui
+```
+
+## .env
+Required environmental variables for Google Maps to function:
+```shell
+VITE_GOOGLE_MAPS_API_KEY=
+VITE_GOOGLE_MAP_ID=
+```
