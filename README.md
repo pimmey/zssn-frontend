@@ -34,3 +34,8 @@ Required environmental variables for Google Maps to function:
 VITE_GOOGLE_MAPS_API_KEY=
 VITE_GOOGLE_MAP_ID=
 ```
+## Tests
+I've covered the SignUp route component as an example. As per npm commands, you can run tests with
+```shell
+npm test
+```
