@@ -18,7 +18,8 @@ import {
 } from '~/data/__generated__'
 import { setMyId } from '~/data/local-storage'
 import Container from '~/layout/main/components/Container'
-import { createSurvivorSchema } from '~/router/routes/SignUp/schemas'
+
+import { createSurvivorSchema } from './schemas'
 
 export default function SignUp() {
   const navigate = useNavigate()

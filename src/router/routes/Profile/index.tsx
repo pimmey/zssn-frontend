@@ -11,11 +11,11 @@ import UserEmoji from '~/components/UserEmoji'
 import { SurvivorsService } from '~/data/__generated__'
 import { getMyId } from '~/data/local-storage'
 import Container from '~/layout/main/components/Container'
-import ReportButton from '~/router/routes/Profile/components/ReportButton'
-import UpdateLocation from '~/router/routes/Profile/components/UpdateLocation'
 
 import Details from './components/Details'
 import Inventory from './components/Inventory'
+import ReportButton from './components/ReportButton'
+import UpdateLocation from './components/UpdateLocation'
 
 export default function Profile() {
   const myId = getMyId()
