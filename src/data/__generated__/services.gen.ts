@@ -112,7 +112,7 @@ export class SurvivorsService {
   }
 
   /**
-   * Report Infection Endpoint
+   * ReportButton Infection Endpoint
    * @param data The data for the request.
    * @param data.requestBody
    * @returns SuccessResponse Successful Response
@@ -127,6 +127,7 @@ export class SurvivorsService {
       body: data.requestBody,
       mediaType: 'application/json',
       errors: {
+        400: 'Bad Request',
         422: 'Validation Error'
       }
     })

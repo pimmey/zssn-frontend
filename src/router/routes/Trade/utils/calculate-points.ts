@@ -20,9 +20,11 @@ export const calculatePoints = (
   return (
     items?.reduce((acc, item) => {
       if (item?.quantity && item.item_id) {
-        acc +=
-          Number(item.quantity) *
-          getPoints(Number(item?.item_id), inventory)
+        const quantity = Number(item.quantity)
+        const points = getPoints(Number(item?.item_id), inventory)
+        if (quantity > 0) {
+          acc += quantity * points
+        }
       }
       return acc
     }, 0) || 0

@@ -41,9 +41,9 @@ export default function LocationFormGroup<
     useState<boolean>(false)
 
   const askForLocation = () => {
-    setIsLoadingPosition(true)
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
+        setIsLoadingPosition(true)
         const coordinates: Array<keyof LocationValues> = [
           'longitude',
           'latitude'
@@ -74,7 +74,7 @@ export default function LocationFormGroup<
       <div>
         <label htmlFor="latitude">Current position</label>
       </div>
-      <div className="flex flex-col gap-x-2 gap-y-2 md:flex-row">
+      <div className="flex flex-col gap-x-2 gap-y-2 lg:flex-row">
         <input
           type="number"
           {...register('latitude' as FieldPath<TFormValues>)}
@@ -94,7 +94,7 @@ export default function LocationFormGroup<
           type="button"
           onClick={askForLocation}
         >
-          Detect location
+          📍 Detect location
         </Button>
       </div>
       <FormErrorMessage<TFormValues> id="latitude" errors={errors} />

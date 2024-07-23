@@ -1,4 +1,8 @@
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom'
+import {
+  Link,
+  isRouteErrorResponse,
+  useRouteError
+} from 'react-router-dom'
 
 export default function ErrorPage() {
   const error = useRouteError()
@@ -21,6 +25,12 @@ export default function ErrorPage() {
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <pre className="bg-gray-200 p-4">{errorMessage}</pre>
+      <p>
+        <Link to="/" className="underline">
+          Go back to homepage
+        </Link>{' '}
+        | Contact us
+      </p>
     </div>
   )
 }

@@ -11,11 +11,11 @@ import Trade from './routes/Trade'
 const router = createBrowserRouter([
   {
     element: <MainLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
-        element: <Root />,
-        errorElement: <ErrorPage />
+        element: <Root />
       },
       {
         path: '/sign-up',
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         element: <Profile />
       },
       {
-        path: '/trade/:id',
+        path: '/profile/:id/trade',
         element: <Trade />
       }
     ]

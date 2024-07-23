@@ -66,72 +66,90 @@ export default function SignUp() {
       <PageTitle>Sign up</PageTitle>
       <div className="rounded-3xl bg-gray-100 p-8">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormGroup>
-            <label htmlFor="name">Name</label>
-            <input id="name" {...register('name')} className="w-72" />
-            <FormErrorMessage<SurvivorCreate>
-              id="name"
-              errors={errors}
-            />
-          </FormGroup>
-          <FormGroup>
-            <label htmlFor="age">Age</label>
-            <input
-              type="number"
-              id="age"
-              min="0"
-              {...register('age')}
-              className="w-16"
-            />
-            <FormErrorMessage<SurvivorCreate>
-              id="age"
-              errors={errors}
-            />
-          </FormGroup>
-          <FormGroup>
-            <label htmlFor="gender">Gender</label>
-            <select
-              id="gender"
-              {...register('gender')}
-              className="w-36"
-            >
-              <option value="female">female</option>
-              <option value="male">male</option>
-              <option value="other">other</option>
-            </select>
-            <FormErrorMessage<SurvivorCreate>
-              id="gender"
-              errors={errors}
-            />
-          </FormGroup>
-          <LocationFormGroup<SurvivorCreate>
-            register={register}
-            setValue={setValue}
-            errors={errors}
-          />
-          {inventoryItems?.map((item, index) => (
-            <FormGroup key={item.id}>
-              <label className="capitalize">{item.name}</label>
-              <input
-                type="hidden"
-                value={+item.id}
-                {...register(`inventory.${index}.item_id`)}
+          <div className="flex flex-col gap-y-8 md:flex-row">
+            <div className="md:w-2/3">
+              <div className="mb-4 text-2xl">Personal data</div>
+              <FormGroup>
+                <label htmlFor="name">Name</label>
+                <input
+                  id="name"
+                  {...register('name')}
+                  className="w-72"
+                />
+                <FormErrorMessage<SurvivorCreate>
+                  id="name"
+                  errors={errors}
+                />
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="age">Age</label>
+                <input
+                  type="number"
+                  id="age"
+                  min="0"
+                  {...register('age')}
+                  className="w-16"
+                />
+                <FormErrorMessage<SurvivorCreate>
+                  id="age"
+                  errors={errors}
+                />
+              </FormGroup>
+              <FormGroup>
+                <label htmlFor="gender">Gender</label>
+                <select
+                  id="gender"
+                  {...register('gender')}
+                  className="w-36"
+                >
+                  <option value="female">female</option>
+                  <option value="male">male</option>
+                  <option value="other">other</option>
+                </select>
+                <FormErrorMessage<SurvivorCreate>
+                  id="gender"
+                  errors={errors}
+                />
+              </FormGroup>
+              <LocationFormGroup<SurvivorCreate>
+                register={register}
+                setValue={setValue}
+                errors={errors}
               />
-              <input
-                type="number"
-                defaultValue={0}
-                min={0}
-                {...register(`inventory.${index}.quantity`)}
-                className="w-16"
-              />
-              {errors?.inventory?.[index]?.quantity ? (
-                <div className="text-sm">
-                  {errors?.inventory[index].quantity.message}
-                </div>
-              ) : null}
-            </FormGroup>
-          ))}
-          <Button intent={ButtonIntentsEnum.primary}>Sign up</Button>
+            </div>
+            <div>
+              <div className="mb-4 text-2xl">
+                Define your inventory
+              </div>
+              {inventoryItems?.map((item, index) => (
+                <FormGroup key={item.id}>
+                  <label className="capitalize">{item.name}</label>
+                  <input
+                    type="hidden"
+                    value={+item.id}
+                    {...register(`inventory.${index}.item_id`)}
+                  />
+                  <input
+                    type="number"
+                    defaultValue={0}
+                    min={0}
+                    {...register(`inventory.${index}.quantity`)}
+                    className="w-16"
+                  />
+                  {errors?.inventory?.[index]?.quantity ? (
+                    <div className="text-sm">
+                      {errors?.inventory[index].quantity.message}
+                    </div>
+                  ) : null}
+                </FormGroup>
+              ))}
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <Button intent={ButtonIntentsEnum.primary}>
+              Sign up
+            </Button>
+          </div>
         </form>
       </div>
     </Container>

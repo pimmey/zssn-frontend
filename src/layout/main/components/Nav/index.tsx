@@ -11,7 +11,12 @@ export default function Nav() {
     <nav className="fixed top-4 z-50 flex w-full justify-center">
       <div className="container mx-auto mb-8 px-4">
         <div className="flex justify-between rounded-full bg-amber-300 px-8 py-4">
-          <NavLink to="/" className="font-bold">
+          <NavLink to="/" className="flex items-baseline font-bold">
+            <img
+              src="/logo-square.png"
+              alt="ZSSN logo"
+              className="w-4"
+            />{' '}
             ZSSN
           </NavLink>
           <div className="flex gap-x-4">
