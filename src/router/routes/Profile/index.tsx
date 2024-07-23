@@ -43,49 +43,47 @@ export default function Profile() {
     }
   }, [survivorError])
 
-  return (
-    survivor && (
-      <Container>
-        <PageTitle>
-          <UserEmoji
-            gender={survivor.gender}
-            isInfected={survivor.is_infected}
-          />{' '}
-          {survivor.name}
-        </PageTitle>
-        <div className="mb-4 flex gap-x-2">
-          {myId === id ? (
-            <Button
-              intent={ButtonIntentsEnum.secondary}
-              onClick={onUpdateLocationClick}
-            >
-              Update location
-            </Button>
-          ) : null}
-          {myId !== id ? (
-            <ReportButton id={id} isDisabled={isFlagDisabled} />
-          ) : null}
-        </div>
-        {showUpdateLocationForm && (
-          <UpdateLocation
-            id={id}
-            setShowUpdateLocationForm={setShowUpdateLocationForm}
-          />
-        )}
-        <div className="mb-4">
-          <Map
-            data={survivor}
-            defaultCenter={{
-              lat: survivor.latitude,
-              lng: survivor.longitude
-            }}
-          />
-        </div>
-        <div className="flex flex-col gap-x-4 gap-y-4 md:flex-row">
-          <Details survivor={survivor} />
-          <Inventory survivor={survivor} id={id} />
-        </div>
-      </Container>
-    )
-  )
+  return survivor ? (
+    <Container>
+      <PageTitle>
+        <UserEmoji
+          gender={survivor.gender}
+          isInfected={survivor.is_infected}
+        />{' '}
+        {survivor.name}
+      </PageTitle>
+      <div className="mb-4 flex gap-x-2">
+        {myId === id ? (
+          <Button
+            intent={ButtonIntentsEnum.secondary}
+            onClick={onUpdateLocationClick}
+          >
+            Update location
+          </Button>
+        ) : null}
+        {myId !== id ? (
+          <ReportButton id={id} isDisabled={isFlagDisabled} />
+        ) : null}
+      </div>
+      {showUpdateLocationForm ? (
+        <UpdateLocation
+          id={id}
+          setShowUpdateLocationForm={setShowUpdateLocationForm}
+        />
+      ) : null}
+      <div className="mb-4">
+        <Map
+          data={survivor}
+          defaultCenter={{
+            lat: survivor.latitude,
+            lng: survivor.longitude
+          }}
+        />
+      </div>
+      <div className="flex flex-col gap-x-4 gap-y-4 md:flex-row">
+        <Details survivor={survivor} />
+        <Inventory survivor={survivor} id={id} />
+      </div>
+    </Container>
+  ) : null
 }
